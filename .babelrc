@@ -1,0 +1,17 @@
+{
+  "presets": [
+    "es2015-node5"
+  ],
+  "env": {
+    "development": {
+      "presets": [
+      ]
+    },
+    "production": {
+      "plugins": [
+        "transform-react-constant-elements",
+        "transform-react-remove-prop-types"
+      ]
+    }
+  }
+}
