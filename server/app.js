@@ -1,4 +1,3 @@
-const dotenv = require('dotenv');
 const express = require('express');
 const bodyParser = require('body-parser');
 const util = require('util');
@@ -6,8 +5,6 @@ const redis = require('redis');
 
 const api = require('./helpers/api');
 const searchModel = require('./models/search');
-
-dotenv.load();
 
 // For testing:
 // https://glebbahmutov.com/blog/how-to-correctly-unit-test-express-server/
@@ -55,8 +52,8 @@ module.exports = function() {
   });
 
   app.get('/api/recent', (req, res) => {
-    model.getRecent((err, res) => {
-      res.status(200).json(res);
+    model.getRecent((err, reply) => {
+      res.status(200).json(reply);
     });
   });
 

@@ -74,12 +74,10 @@ module.exports = function({q, offset} = {}, cb) {
   });
 
   const compositeURL = `${API_ENDPOINT}?${params}`;
-  console.log(compositeURL);
 
   get(compositeURL)
     .then(response => {
-      console.log(response.data);
-      cb(undefined, transformData(response.data));
+      cb(null, transformData(response.data));
     })
     .catch(error => {
       console.log(error);

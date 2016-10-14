@@ -14,7 +14,7 @@ fs.readdirSync('node_modules')
   });
 
 module.exports = {
-  entry: './prodSrc.js',
+  entry: './app.js',
   target: 'node',
   output: {
     path: path.join(__dirname, 'build'),

@@ -7,7 +7,9 @@
     "start": "npm-run-all --parallel open:src",
     "test": "babel-tape-runner tests/**/*.test.js",
     "test:watch": "tape-watch -w server/**/*.js tests/**/*.test.js",
-    "open:src": "node-dev --no-notify app.js"
+    "open:src": "node-dev --no-notify app.js",
+    "build": "webpack",
+    "heroku:hostname": "heroku config:set HEROKU_URL=$(heroku info -s | grep web_url | cut -d= -f2)"
   },
   "keywords": [],
   "author": "Jason Boxman <jasonb@edseek.com>",
