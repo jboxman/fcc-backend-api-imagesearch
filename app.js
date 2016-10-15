@@ -1,4 +1,6 @@
 const dotenv = require('dotenv');
 // Only works when loaded here
-dotenv.load();
+if(process.env.NODE_ENV != 'production')
+  dotenv.load();
+
 require('./server/app')();

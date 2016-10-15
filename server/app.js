@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const util = require('util');
 const redis = require('redis');
 
+const globals = require('./globals');
 const api = require('./helpers/api');
 const searchModel = require('./models/search');
 
@@ -13,7 +14,9 @@ module.exports = function() {
   const port = process.env.PORT || 3100;
 
 //  const client = redis.createClient({url: globals.REDIS_URL});
-  const client = redis.createClient();
+  const client = redis.createClient({
+    url: globals.REDIS_URL
+  });
   const model = searchModel({client});
 
   // __dirname is '/' after babel
