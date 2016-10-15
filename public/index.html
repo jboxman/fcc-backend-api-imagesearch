@@ -1,0 +1,109 @@
+<html>
+
+<head>
+  <link rel="stylesheet prefetch" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./styles/main.css">
+</head>
+
+<body>
+<header class="page-header text-center">
+  <h1>URL Shortener</h1>
+  <small></small>
+</header>
+<section>
+
+  <form>
+  <div class="input-group">
+   <input type="text" class="form-control" id="url">
+   <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" id="short-btn">Make a short URL</button>
+   </span>
+</div>
+  <div class="input-group">
+   <input type="text" class="form-control" id="shorturl">
+   <span class="input-group-btn">
+        <button class="btn btn-default" type="button" id="copy-btn">Copy</button>
+   </span>
+</div>
+  </form>
+
+</section>
+
+<section class="content">
+  <h3>API</h3>
+  <p>
+    The API endpoints listed below are available.
+  </p>
+  <h4>POST /api/save</h4>
+  <p>
+    Create a shorter URL.
+  </p>
+  <h5>Request</h5>
+  <p>
+    To obtain a short URL make a POST request with a JSON payload. The <strong>url</strong> key must be included and its value set to the URL you want shortened.
+  </p>
+  <pre>
+$ curl -H"Content-Type: application/json" \
+-X POST -d '{"url":"http://example.com"}' \
+  http://example.com/api/save
+  </pre>
+  <h5>Response</h5>
+  <p>
+    The response includes both the <strong>key</strong> and the <strong>shortUrl</strong>.
+  </p>
+  <pre>
+{
+  "key":"rt",
+  "shortUrl":"http://example.com/rt"
+}
+  </pre>
+
+  <h4>GET /api/get/:key</h4>
+  <p>
+    Lookup an original URL by its associated key. The key must be included as the final path in the API endpoint path.
+  </p>
+  <h5>Request</h5>
+  <p>
+    To obtain the original URL for a key, make a GET request with the <strong>key</strong> as part of the URL.
+  </p>
+  <pre>
+$ curl http://localhost:3100/api/get/fg
+  </pre>
+  <h5>Response</h5>
+  The response is a JSON payload with a <strong>url</strong> containing the original URL.
+  <pre>
+{
+  "url":"http://example.com"
+}
+  </pre>
+
+  <h4>GET /api/recent</h4>
+  <p>
+    Retrieve a list of the 10 most recently shortened URLs.
+  </p>
+  <h5>Request</h5>
+  <p>
+    No arguments.
+  </p>
+  <pre>
+$ curl http://localhost:3100/api/recent
+  </pre>
+  <h5>Response</h5>
+  <p>
+  A JSON payload is returned with the <strong>recentUrls</strong> key associated with an array of URLs.
+  </p>
+  <pre>
+{"recentUrls":["http://example.com"]}
+ </pre>
+</section>
+
+<footer class="text-center">
+  Crafted by Jason Boxman.
+</footer>
+
+</body>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+<script src="./scripts/index.js"></script>
+</html>
