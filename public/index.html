@@ -3,30 +3,27 @@
 <head>
   <link rel="stylesheet prefetch" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="./styles/main.css">
+  <title>fCC: Image Search API</title>
 </head>
 
 <body>
 <header class="page-header text-center">
-  <h1>URL Shortener</h1>
+  <h1>Image Search API</h1>
   <small></small>
 </header>
 <section>
 
   <form>
   <div class="input-group">
-   <input type="text" class="form-control" id="url">
+   <input type="text" class="form-control" id="query">
    <span class="input-group-btn">
-        <button class="btn btn-primary" type="button" id="short-btn">Make a short URL</button>
+        <button class="btn btn-primary" type="button" id="search-btn">Search</button>
    </span>
-</div>
-  <div class="input-group">
-   <input type="text" class="form-control" id="shorturl">
-   <span class="input-group-btn">
-        <button class="btn btn-default" type="button" id="copy-btn">Copy</button>
-   </span>
-</div>
+  </div>
   </form>
 
+  <pre id="output">
+  </pre>
 </section>
 
 <section class="content">
@@ -34,52 +31,143 @@
   <p>
     The API endpoints listed below are available.
   </p>
-  <h4>POST /api/save</h4>
+  <h4>GET /api/search?q=&lt;query&gt;[&offset=&lt;number&gt;]</h4>
   <p>
-    Create a shorter URL.
+    Search for images related to a specific keyword.
   </p>
   <h5>Request</h5>
   <p>
-    To obtain a short URL make a POST request with a JSON payload. The <strong>url</strong> key must be included and its value set to the URL you want shortened.
+    A query string is mandatory. An optional offset may be specified.
   </p>
   <pre>
-$ curl -H"Content-Type: application/json" \
--X POST -d '{"url":"http://example.com"}' \
-  http://example.com/api/save
+$ curl http://localhost:3100/api/search?q=cats
   </pre>
   <h5>Response</h5>
   <p>
-    The response includes both the <strong>key</strong> and the <strong>shortUrl</strong>.
+  The response is a JSON payload with keys for <strong>length</strong>, <strong>items</strong>, and <strong>ids</strong>.
   </p>
   <pre>
 {
-  "key":"rt",
-  "shortUrl":"http://example.com/rt"
-}
-  </pre>
-
-  <h4>GET /api/get/:key</h4>
-  <p>
-    Lookup an original URL by its associated key. The key must be included as the final path in the API endpoint path.
-  </p>
-  <h5>Request</h5>
-  <p>
-    To obtain the original URL for a key, make a GET request with the <strong>key</strong> as part of the URL.
-  </p>
-  <pre>
-$ curl http://localhost:3100/api/get/fg
-  </pre>
-  <h5>Response</h5>
-  The response is a JSON payload with a <strong>url</strong> containing the original URL.
-  <pre>
-{
-  "url":"http://example.com"
-}
-  </pre>
+  "length":10,
+  "items":[
+    {
+      "title":"Cats",
+      "id":"B37zkUD4sVcJ",
+      "snippet":"Further details: The logo for the musical cats. Source. The logo is from the http://\nwww.musikmarkt-wiesbaden.de/images/CATS%20musical%20LP.jpg website.",
+      "displayLink":"en.wikipedia.org",
+      "thumb_width":"225",
+      "thumb_height":"225",
+      "thumb_src":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRgWFvbeNj6NdUX1T0CRNk1DXFNOBG497gNIzCjShctJXRY_Sclnc16E",
+      "image_src":"https://upload.wikimedia.org/wikipedia/en/3/3e/CatsMusicalLogo.jpg"
+    },
+    {
+      "title":"File:Cats having sex in Israel.jpg - Wikimedia Commons",
+      "id":"djKqNwrq-8MJ",
+      "snippet":"Oct 16, 2015 ... File:Cats having sex in Israel.jpg. From Wikimedia Commons, the free media \nrepository. Jump to: navigation, search. File; File history; File ...",
+      "displayLink":"commons.wikimedia.org",
+      "thumb_width":"259",
+      "thumb_height":"194",
+      "thumb_src":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFDXvzc6Wvz3rdBRb5iQbZDvGrHBm5tWli8q-FJoLVykLtkf1e68f2ttk",
+      "image_src":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Cats_having_sex_in_Israel.jpg/800px-Cats_having_sex_in_Israel.jpg"
+    },
+    {
+      "title":"File:CatsGroup.jpg - Wikipedia",
+      "id":"H0JRloRSwL4J",
+      "snippet":"No public domain or free image could be substituted, as all screenshots from the \nCats DVD are copyrighted, and because cameras are forbidden during ...",
+      "displayLink":"en.wikipedia.org",
+      "thumb_width":"282",
+      "thumb_height":"179",
+      "thumb_src":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRotc_LrvG9FaYQBtKrDb9HzVfp7yXG5z2tlH2ZhJlwdD-AlvMkjH2m5ng",
+      "image_src":"https://upload.wikimedia.org/wikipedia/en/4/41/CatsGroup.jpg"
+    },
+    {
+      "title":"File:Lombard School c1700 Cats being instructed In the art of mouse ...",
+      "id":"j9jrYi6HqSIJ",
+      "snippet":"Apr 6, 2016 ... File:Lombard School c1700 Cats being instructed In the art of mouse-catching by \nan owl.jpg. From Wikimedia Commons, the free media ...",
+      "displayLink":"commons.wikimedia.org",
+      "thumb_width":"254",
+      "thumb_height":"198",
+      "thumb_src":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbQI5iLreYy9G02dnxRsw4xfAH_dRJBd04EZEz5bGH43b9gZLJoEfJRiP7",
+      "image_src":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Lombard_School_c1700_Cats_being_instructed_In_the_art_of_mouse-catching_by_an_owl.jpg/770px-Lombard_School_c1700_Cats_being_instructed_In_the_art_of_mouse-catching_by_an_owl.jpg"
+    },
+    {
+      "title":"File:Pierre Bonnard - Cats on the Railing - Google Art Project.jpg ...",
+      "id":"9GJr7ADSkbUJ",
+      "snippet":"Artwork image information. Title, English: Cats on the Railing. Artist, Pierre \nBonnard (1867 - 1947) (Details of artist on Google Art Project). Year, 1909. \nCreation ...",
+      "displayLink":"en.wikipedia.org",
+      "thumb_width":"203",
+      "thumb_height":"248",
+      "thumb_src":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrJJKySAmcDH12gwhzb7PtzIjDFoRKnDFBFD9fqebdFhn2rrsMGuoUQ9U",
+      "image_src":"https://upload.wikimedia.org/wikipedia/en/thumb/b/b5/Pierre_Bonnard_-_Cats_on_the_Railing_-_Google_Art_Project.jpg/490px-Pierre_Bonnard_-_Cats_on_the_Railing_-_Google_Art_Project.jpg"
+    },
+    {
+      "title":"File:Cat-eating-prey.jpg - Wikimedia Commons",
+      "id":"S3yQ20cZlakJ",
+      "snippet":"Jul 27, 2016 ... File:Cat-eating-prey.jpg. From Wikimedia Commons, the free media repository. \nJump to: navigation, search. File; File history; File usage on ...",
+      "displayLink":"commons.wikimedia.org",
+      "thumb_width":"276",
+      "thumb_height":"183",
+      "thumb_src":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTRIrlwFBVodDgZk3tNmq3b7mwAFoSuYr-4VteAwk-RQUSW-eZrBolOU-I",
+      "image_src":"https://upload.wikimedia.org/wikipedia/commons/7/74/Cat-eating-prey.jpg"
+    },
+    {
+      "title":"Image - Bricksburg-cats.jpg | Brickipedia | Fandom powered by Wikia",
+      "id":"_P8YRpgH57EJ",
+      "snippet":"Bricksburg-cats.jpg   (218 × 327 pixels, file size: 27 KB, MIME type: image/jpeg). \nAbout; File History; Metadata. There is no description yet. Add a description.",
+      "displayLink":"lego.wikia.com",
+      "thumb_width":"174",
+      "thumb_height":"261",
+      "thumb_src":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ2TJQIhMBUsZ6XmXVYK1hOJEPKBjqupHiNeHm2QOvlR-fudvBok3y8v5g",
+      "image_src":"http://vignette2.wikia.nocookie.net/lego/images/b/b9/Bricksburg-cats.jpg/revision/latest?cb=20140227235335"
+    },
+    {
+      "title":"Image - Disney Cats.jpg | Disney Wiki | Fandom powered by Wikia",
+      "id":"4u6lrg8YtNIJ",
+      "snippet":"File:Disney Cats.jpg. No higher resolution available. Disney_Cats.jpg   (400 × \n400 pixels, file size: 27 KB, MIME type: image/jpeg). About; File History ...",
+      "displayLink":"disney.wikia.com",
+      "thumb_width":"225",
+      "thumb_height":"225",
+      "thumb_src":"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcT7B2kUkCCa13snwo_tC12snlyq4Wxy3G4xfXV1kRt2CFCmV6Gb4fmWJys",
+      "image_src":"http://vignette3.wikia.nocookie.net/disney/images/5/52/Disney_Cats.jpg/revision/latest?cb=20140329195807"
+    },
+    {
+      "title":"Image - 2123515-169 batman arkham city armored edition wiiU ...",
+      "id":"ayBHLeDZVhAJ",
+      "snippet":"File:2123515-169 batman arkham city armored edition wiiU gameplay 112112 \ncats.jpg. Size of this preview: 640 × 360 pixels. Other resolutions: 320 × 180 ...",
+      "displayLink":"arkhamcity.wikia.com",
+      "thumb_width":"300",
+      "thumb_height":"168",
+      "thumb_src":"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTgZpTKXIIg8yFOYWoZakC6pFRkutwcIBewBMCTiSjgfam3euQjtkULoY4",
+      "image_src":"http://vignette4.wikia.nocookie.net/arkhamcity/images/0/07/2123515-169_batman_arkham_city_armored_edition_wiiU_gameplay_112112_cats.jpg/revision/latest?cb=20131216012827"
+    },
+    {
+      "title":"Image - Mrs hasagawa s cats by bricerific43-d6s7wae.jpg | Lilo and ...",
+      "id":"NbeKsZwIvXgJ",
+      "snippet":"File:Mrs hasagawa s cats by bricerific43-d6s7wae.jpg. Size of this preview: 640 × \n410 pixels. Other resolutions: 320 × 205 pixels | 800 × 512 pixels | 1,024 × 656 ...",
+      "displayLink":"liloandstitch.wikia.com",
+      "thumb_width":"281",
+      "thumb_height":"180",
+      "thumb_src":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcStgqE6DUoCzq6mYAUPdcALdc-XHMCwEqELqNiZbZREmi_dzLEtFPyKloTa",
+      "image_src":"http://vignette4.wikia.nocookie.net/stitchipediaalilostitch/images/5/5f/Mrs_hasagawa_s_cats_by_bricerific43-d6s7wae.jpg/revision/latest/scale-to-width-down/2000?cb=20131029075924"
+    }
+  ],
+  "ids":[
+    "B37zkUD4sVcJ",
+    "djKqNwrq-8MJ",
+    "H0JRloRSwL4J",
+    "j9jrYi6HqSIJ",
+    "9GJr7ADSkbUJ",
+    "S3yQ20cZlakJ",
+    "_P8YRpgH57EJ",
+    "4u6lrg8YtNIJ",
+    "ayBHLeDZVhAJ",
+    "NbeKsZwIvXgJ"
+  ]
+}  </pre>
 
   <h4>GET /api/recent</h4>
   <p>
-    Retrieve a list of the 10 most recently shortened URLs.
+    Retrieve a list of the 10 most recent search queries.
   </p>
   <h5>Request</h5>
   <p>
@@ -90,15 +178,30 @@ $ curl http://localhost:3100/api/recent
   </pre>
   <h5>Response</h5>
   <p>
-  A JSON payload is returned with the <strong>recentUrls</strong> key associated with an array of URLs.
+  A JSON payload containing an array of objects with <strong>query</strong> and <strong>when</strong> keys.
+  The value of <strong>when</strong> is in UNIX epoch time.
   </p>
   <pre>
-{"recentUrls":["http://example.com"]}
+[
+  {
+    "query":"cats",
+    "when":1476563472926
+  },
+  {
+    "query":"dogs",
+    "when":1476559933439
+  },
+  {
+    "query":"dogs",
+    "when":1476559933439
+  }
+]
  </pre>
 </section>
 
 <footer class="text-center">
   Crafted by Jason Boxman.
+  <a href="https://github.com/jboxman/cc-backend-api-imagesearch">GitHub</a>.
 </footer>
 
 </body>
